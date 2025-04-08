@@ -45,26 +45,59 @@
 		- Secure payment gateway for premium job postings or subscriptions. -->
 
 ## DB Business Requirements
-- Enteties: Job searchers (applicants), job publisher (recruiter), companies, ...
-- Relationships: {
-	each applicant may be working in a company or more
-	each company has at least one recruiter
-	each company may has many published job offers
-	each recruiter may be working in a company
-}
-- Attributes: 
-	- applicants: {
-		has current working company,has experience, has cv, 
-		has filled job applications, has job offers, has social media accounts
-	}
-	- recruiters: {
-		has published jobs, has working company, has role in company, 
-		has social media accounts, has 
-	}
-	- Companies: {
-		has a field of interest, has department, has employees,
-		each employee working in a department, has published job offers, 
-	}
+### Database Requirements
+
+#### Entities
+1. **Applicants** (Job Seekers)
+2. **Recruiters** (Job Publishers)
+3. **Companies**
+4. **Job Offers**
+
+#### Relationships
+1. Each **applicant** may work for one or more **companies**.
+2. Each **company** must have at least one **recruiter**.
+3. Each **company** can publish multiple **job offers**.
+4. Each **recruiter** is associated with a **company**.
+5. Each **applicant** can apply to multiple **job offers**.
+6. Each **job offer** can receive applications from multiple **applicants**.
+
+#### Attributes
+1. **Applicants**:
+	- name and primary contact info
+	- Current working company (optional).
+	- Work experience (list of roles, durations, and companies).
+	- CV (uploaded document or link).
+	- Filled job applications (list of applied job offers).
+	- Saved job offers (bookmarked jobs).
+	- Social media accounts (e.g., LinkedIn, GitHub).
+
+2. **Recruiters**:
+	- Published job offers (list of jobs created by the recruiter).
+	- Associated company (mandatory).
+	- Role in the company (e.g., HR Manager, Recruiter).
+	- Social media accounts (e.g., LinkedIn, Twitter).
+
+3. **Companies**:
+	- Name and field of interest (e.g., IT, Finance, Healthcare).
+	- Departments (list of departments within the company).
+	- Employees (list of associated applicants and recruiters).
+	- Published job offers (list of jobs posted by the company).
+
+4. **Job Offers**:
+	- Title and description.
+	- Required qualifications and skills.
+	- Salary range and job type (e.g., full-time, part-time, contract).
+	- Location (remote, on-site, hybrid).
+	- Application deadline.
+	- Associated company and recruiter.
+
+#### Additional Considerations
+- Ensure proper indexing for frequently queried fields like job titles, locations, and applicant profiles.
+- Use foreign keys to enforce relationships between entities (e.g., applicant to company, recruiter to company, job offer to recruiter).
+- Normalize the database to reduce redundancy while maintaining performance for search and filtering operations.
+- Implement soft deletes for entities like job offers and applications to allow recovery if needed.
+- Track timestamps for creation and updates on all entities for audit purposes.
+- Design the schema to support future scalability, such as adding multi-language support or integrating third-party services.
 ## Work Flow
 - Divide each step of each feature into smaller steps 
 - manage feature implementation using trellio

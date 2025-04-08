@@ -1,0 +1,26 @@
+{
+  "name": "jobs_finder",
+  "version": "1.0.0",
+  "description": "RESTFUL API for recruiting job applicants and find job offers",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OmarKHDR/job-finder.git"
+  },
+  "keywords": [
+    "jobs",
+    "restfulapi",
+    "job",
+    "finding"
+  ],
+  "author": "OmarKHDR",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OmarKHDR/job-finder/issues"
+  },
+  "homepage": "https://github.com/OmarKHDR/job-finder#readme"
+}
