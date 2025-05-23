@@ -5,7 +5,7 @@ import logger from '@utils/logger';
 let sequelize: Sequelize | null = null;
 let connecting: Promise<Sequelize> | null = null;
 
-//singleton
+//singleton pattern
 export async function getDB(): Promise<Sequelize> {
 	if (sequelize) return sequelize; 
 

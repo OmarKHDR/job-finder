@@ -22,7 +22,10 @@ const userSchema = {
 	},
 	email: {
 		type: DataTypes.STRING,
-		unique: true
+		unique: true,
+		validate: {
+			isEmail: true
+		}
 	},
 	role: {
 		type: DataTypes.STRING,
@@ -35,9 +38,14 @@ const userSchema = {
 }
 
 async function initUserModel() {
-	const sequelize = await getDB();
-	User.init(userSchema, {sequelize});
-	return User;
+	try {
+		const sequelize = await getDB();
+		User.init(userSchema, {sequelize});
+		return User;
+	} catch (error) {
+		console.error('Failed to initialize User model:', error);
+		throw error;
+	}
 }
 
 

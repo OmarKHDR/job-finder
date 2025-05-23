@@ -14,7 +14,7 @@ const companySchema = {
 		type: DataTypes.STRING,
 		allowNull: false
 	},
-	feild: {
+	field: {
 		type: DataTypes.STRING,
 		allowNull: false
 	},
@@ -24,7 +24,10 @@ const companySchema = {
 	email: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique:true
+		unique: true,
+		validate: {
+			isEmail: true
+		}
 	},
 	website: {
 		type: DataTypes.STRING,
@@ -32,9 +35,14 @@ const companySchema = {
 }
 
 async function initCompanyModel() {
-	const sequelize = await getDB();
-	Company.init(companySchema, { sequelize });
-	return Company;
+	try {
+		const sequelize = await getDB();
+		Company.init(companySchema, { sequelize });
+		return Company;
+	} catch (error) {
+		console.error('Failed to initialize Company model:', error);
+		throw error;
+	}
 }
 
 export default initCompanyModel;
