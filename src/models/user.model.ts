@@ -34,8 +34,11 @@ const userSchema = {
 	},
 }
 
-getDB().then(sequelize => {
-	User.init(userSchema, {sequelize})
-})
+async function initUserModel() {
+	const sequelize = await getDB();
+	User.init(userSchema, {sequelize});
+	return User;
+}
 
-export default User;
+
+export default initUserModel;
