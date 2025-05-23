@@ -11,10 +11,11 @@
 			"@/*":["src/*"],
 			"@api/*": ["src/api/*["],
 			"@services/*": ["src/services/*"],
+			"@utils/*": ["src/utils/*"],
 			"@middleware/*": ["src/api/v1/middleware/*"],
 			"@controllers/*": ["src/api/v1/controllers/*"],
 			"@routes/*": ["src/api/v1/routes/*"],
-			"@models/*": ["src/api/v1/models/*"],
+			"@models/*": ["src/models/*"],
 			"@config/*": ["src/config/*"]
 		}
 	},

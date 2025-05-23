@@ -1,9 +1,15 @@
 import winston from 'winston';
 
+const timezoned = () => {
+    return new Date().toLocaleString('en-US', {
+        timeZone: process.env.TZ
+    });
+}
+
 const logger = winston.createLogger({
-  level: 'debug', // logs 'info', 'warn', 'error' but NOT 'debug'
+  level: 'debug', // logs everything
   format: winston.format.combine(
-    winston.format.timestamp(),
+    winston.format.timestamp({ format: timezoned }),
     winston.format.printf(({ level, message, timestamp }) => {
       return `[${timestamp}] ${level.toUpperCase()}: ${message}`;
     })
