@@ -26,7 +26,8 @@ const userSchema = {
 		unique: true,
 		validate: {
 			isEmail: true
-		}
+		},
+		allowNull: false
 	},
 	role: {
 		type: DataTypes.STRING,

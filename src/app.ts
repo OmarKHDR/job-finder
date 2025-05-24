@@ -30,6 +30,7 @@ async function startServer(){
 		const models = await initModels();
 		await sequelize.sync({force: true});
 		logger.info("Database & tables created!");
+
 		app.listen(port, hostname, ()=>{
 			logger.info(`server started at port ${port} and host ${hostname}`);
 		})
