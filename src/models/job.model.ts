@@ -5,7 +5,7 @@ import logger from "@utils/logger";
 class Job extends Model {}
 
 const jobSchema = {
-	job_id: {
+	id: {
 		type: DataTypes.UUID,
 		defaultValue: DataTypes.UUIDV4,
 		primaryKey: true
@@ -34,6 +34,9 @@ const jobSchema = {
 	field: {
 		type: DataTypes.STRING,
 		allowNull: false
+	},
+	company_id: {
+		type: DataTypes.UUID,
 	}
 }
 
@@ -41,7 +44,12 @@ const jobSchema = {
 async function initJobModel() {
 	try {
 		const sequelize = await getDB();
-		Job.init(jobSchema, { sequelize });
+		Job.init(jobSchema, { 
+			sequelize,
+			modelName: 'Job',
+			tableName: 'jobs',
+			timestamps: true
+		});
 		return Job;
 	} catch (error) {
 		logger.error('Failed to initialize Job model:', error);

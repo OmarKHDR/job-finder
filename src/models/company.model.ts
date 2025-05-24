@@ -1,11 +1,12 @@
 import { DataTypes, Model } from "sequelize";
 import { getDB } from "@config/db";
+import logger from "@utils/logger";
 
 
 class Company extends Model {}
 
 const companySchema = {
-	company_id: {
+	id: {
 		type: DataTypes.UUID,
 		defaultValue: DataTypes.UUIDV4,
 		primaryKey: true
@@ -37,10 +38,15 @@ const companySchema = {
 async function initCompanyModel() {
 	try {
 		const sequelize = await getDB();
-		Company.init(companySchema, { sequelize });
+		Company.init(companySchema, { 
+			sequelize,
+			modelName: 'Company',
+			tableName: 'companies',
+			timestamps: true
+		});
 		return Company;
 	} catch (error) {
-		console.error('Failed to initialize Company model:', error);
+		logger.error('Failed to initialize Company model:', error);
 		throw error;
 	}
 }

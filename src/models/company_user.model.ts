@@ -9,6 +9,12 @@ const companyUsersSchema = {
 		type: DataTypes.UUID,
 		defaultValue: DataTypes.UUIDV4,
 		primaryKey: true
+	},
+	user_id: {
+		type: DataTypes.UUID,
+	},
+	company_id: {
+		type: DataTypes.UUID,
 	}
 }
 
@@ -16,7 +22,12 @@ const companyUsersSchema = {
 async function initCompanyUsersModel() {
 	try {
 		const sequelize = await getDB();
-		CompanyUsers.init(companyUsersSchema, {sequelize});
+		CompanyUsers.init(companyUsersSchema, {
+			sequelize,
+			modelName: 'CompanyUsers',
+			tableName: 'company_users',
+			timestamps: true
+		});
 		return CompanyUsers;
 	} catch (error) {
 		logger.error('Failed to initialize CompanyUsers model:', error);

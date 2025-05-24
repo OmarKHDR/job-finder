@@ -5,7 +5,7 @@ import logger from "@utils/logger";
 class Skill extends Model {}
 
 const skillSchema = {
-	skill_id: {
+	id: {
 		type: DataTypes.UUID,
 		defaultValue: DataTypes.UUIDV4,
 		primaryKey: true
@@ -23,7 +23,12 @@ const skillSchema = {
 async function initSkillModel() {
 	try {
 		const sequelize = await getDB();
-		Skill.init(skillSchema, { sequelize });
+		Skill.init(skillSchema, {
+			sequelize,
+			modelName: 'Skill',
+			tableName: 'skills',
+			timestamps: true
+		});
 		return Skill;
 	} catch (error) {
 		logger.error('Failed to initialize Skill model:', error);

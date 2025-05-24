@@ -10,6 +10,12 @@ const jobUsersSchema = {
 		defaultValue: DataTypes.UUIDV4,
 		primaryKey: true
 	},
+	user_id: {
+		type: DataTypes.UUID,
+	},
+	job_id: {
+		type: DataTypes.UUID,
+	},
 	role: {
 		type: DataTypes.STRING,
 		allowNull: false
@@ -20,7 +26,12 @@ const jobUsersSchema = {
 async function initJobUsersModel() {
 	try {
 		const sequelize = await getDB();
-		JobUsers.init(jobUsersSchema, {sequelize});
+		JobUsers.init(jobUsersSchema, {
+			sequelize,
+			modelName: 'JobUsers',
+			tableName: 'job_users',
+			timestamps: true
+		});
 		return JobUsers;
 	} catch (error) {
 		logger.error('Failed to initialize JobUsers model:', error);

@@ -19,20 +19,81 @@ async function initModels() {
         // Initialize all models
         const User = await initUserModel();
         const Company = await initCompanyModel();
+        const Skill = await initSkillModel();
+
         const Job = await initJobModel();
         const Application = await initApplicationModel();
-        const ApplicationReviewers = await initApplicationReviewersModel();
-        const CompanyUsers = await initCompanyUsersModel();
-        const JobUsers = await initJobUsersModel();
         const Profile = await initProfileModel();
         const Resume = await initResumeModel();
-        const Skill = await initSkillModel();
+
+        const CompanyUsers = await initCompanyUsersModel();
+        const JobUsers = await initJobUsersModel();
+        const ApplicationReviewers = await initApplicationReviewersModel();
         const SkillUsers = await initSkillUsersModel();
 
-        // Define associations here
-        // Example:
-        // User.hasMany(Job);
-        // Job.belongsTo(User);
+        // User and Company many-to-many relationship
+        User.belongsToMany(Company, {
+            through: CompanyUsers,
+            foreignKey: "user_id",
+            otherKey: "company_id"
+        });
+        Company.belongsToMany(User, {
+            through: CompanyUsers,
+            foreignKey: "company_id",
+            otherKey: "user_id"
+        });
+
+        // Company and Job one-to-many relationship
+        Company.hasMany(Job, { foreignKey: "company_id" })
+        Job.belongsTo(Company, {foreignKey: "company_id"})
+
+        // User and Job many-to-many relationship
+        User.belongsToMany(Job, {
+            through: JobUsers,
+            foreignKey: "user_id",
+            otherKey: "job_id"
+        });
+        Job.belongsToMany(User, {
+            through: JobUsers,
+            foreignKey: "job_id",
+            otherKey: "user_id"
+        });
+
+        //job and application --> one to many
+        Job.hasMany(Application, { foreignKey: "job_id" })
+        Application.belongsTo(Job, {foreignKey: "job_id"})
+        
+        // User and Application many-to-many relationship (reviewers)
+        User.belongsToMany(Application, {
+            through: ApplicationReviewers,
+            foreignKey: "user_id",
+            otherKey: "application_id"
+        });
+        Application.belongsToMany(User, {
+            through: ApplicationReviewers,
+            foreignKey: "application_id",
+            otherKey: "user_id"
+        });
+
+        // user and profile -----> one to one
+        User.hasOne(Profile, { foreignKey: "user_id" })
+        Profile.belongsTo(User, {foreignKey: "user_id"})
+
+        // profile has resume ----> one to many
+        Profile.hasMany(Resume, { foreignKey: "profile_id" })
+        Resume.belongsTo(Profile, {foreignKey: "profile_id"})
+
+        // User and Skill many-to-many relationship
+        User.belongsToMany(Skill, {
+            through: SkillUsers,
+            foreignKey: "user_id",
+            otherKey: "skill_id"
+        });
+        Skill.belongsToMany(User, {
+            through: SkillUsers,
+            foreignKey: "skill_id",
+            otherKey: "user_id"
+        });
 
         return {
             User,

@@ -5,7 +5,7 @@ import logger from "@utils/logger";
 class Profile extends Model {}
 
 const profileSchema = {
-	profile_id: {
+	id: {
 		type: DataTypes.UUID,
 		defaultValue: DataTypes.UUIDV4,
 		primaryKey: true
@@ -15,6 +15,9 @@ const profileSchema = {
 	},
 	interests: {
 		type: DataTypes.TEXT,
+	},
+	user_id: {
+		type: DataTypes.UUID,
 	}
 }
 
@@ -22,7 +25,12 @@ const profileSchema = {
 async function initProfileModel() {
 	try {
 		const sequelize = await getDB();
-		Profile.init(profileSchema, { sequelize });
+		Profile.init(profileSchema, {
+			sequelize,
+			modelName: 'Profile',
+			tableName: 'profiles',
+			timestamps: true
+		});
 		return Profile;
 	} catch (error) {
 		logger.error('Failed to initialize Profile model:', error);

@@ -13,6 +13,12 @@ const skillUsersSchema = {
 	years_of_expertise: {
 		type: DataTypes.FLOAT,
 		allowNull: false
+	},
+	user_id: {
+		type: DataTypes.UUID,
+	},
+	skill_id: {
+		type: DataTypes.UUID,
 	}
 }
 
@@ -20,7 +26,12 @@ const skillUsersSchema = {
 async function initSkillUsersModel() {
 	try {
 		const sequelize = await getDB();
-		SkillUsers.init(skillUsersSchema, {sequelize});
+		SkillUsers.init(skillUsersSchema, {
+			sequelize,
+			modelName: 'SkillUsers',
+			tableName: 'skill_users',
+			timestamps: true
+		});
 		return SkillUsers;
 	} catch (error) {
 		logger.error('Failed to initialize SkillUsers model:', error);

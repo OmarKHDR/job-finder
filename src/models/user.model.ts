@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { getDB } from "@config/db";
+import logger from "@utils/logger";
 
 
 class User extends Model {}
@@ -40,10 +41,15 @@ const userSchema = {
 async function initUserModel() {
 	try {
 		const sequelize = await getDB();
-		User.init(userSchema, {sequelize});
+		User.init(userSchema, {
+			sequelize,
+			modelName: 'User',
+			tableName: 'users',
+			timestamps: true
+		});
 		return User;
 	} catch (error) {
-		console.error('Failed to initialize User model:', error);
+		logger.error('Failed to initialize User model:', error);
 		throw error;
 	}
 }
