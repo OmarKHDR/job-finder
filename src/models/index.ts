@@ -7,7 +7,6 @@ import initApplicationModel from "@models/application.model";
 import initApplicationReviewersModel from "@models/application_reviewer.model";
 import initCompanyUsersModel from "@models/company_user.model";
 import initJobUsersModel from "@models/job_user.model";
-import initProfileModel from "@models/profile.model";
 import initResumeModel from "@models/resume.model";
 import initSkillModel from "@models/skill.model";
 import initSkillUsersModel from "@models/user_skills.model";
@@ -23,7 +22,6 @@ async function initModels() {
 
         const Job = await initJobModel();
         const Application = await initApplicationModel();
-        const Profile = await initProfileModel();
         const Resume = await initResumeModel();
 
         const CompanyUsers = await initCompanyUsersModel();
@@ -63,6 +61,10 @@ async function initModels() {
         Job.hasMany(Application, { foreignKey: "job_id" })
         Application.belongsTo(Job, {foreignKey: "job_id"})
         
+        //job seekers and applications: one -> many
+        User.hasMany(Application, { foreignKey: "user_id"})
+        Application.belongsTo(User, { foreignKey: "user_id"})
+
         // User and Application many-to-many relationship (reviewers)
         User.belongsToMany(Application, {
             through: ApplicationReviewers,
@@ -75,13 +77,10 @@ async function initModels() {
             otherKey: "user_id"
         });
 
-        // user and profile -----> one to one
-        User.hasOne(Profile, { foreignKey: "user_id" })
-        Profile.belongsTo(User, {foreignKey: "user_id"})
 
-        // profile has resume ----> one to many
-        Profile.hasMany(Resume, { foreignKey: "profile_id" })
-        Resume.belongsTo(Profile, {foreignKey: "profile_id"})
+        // user has resume ----> one to many
+        User.hasMany(Resume, { foreignKey: "user_id" })
+        Resume.belongsTo(User, {foreignKey: "user_id"})
 
         // User and Skill many-to-many relationship
         User.belongsToMany(Skill, {
@@ -103,7 +102,6 @@ async function initModels() {
             ApplicationReviewers,
             CompanyUsers,
             JobUsers,
-            Profile,
             Resume,
             Skill,
             SkillUsers

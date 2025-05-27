@@ -27,7 +27,7 @@ const jobSchema = {
 	salary: {
 		type: DataTypes.FLOAT
 	},
-	employement_type: {
+	employment_type: {
 		type: DataTypes.STRING,
 		allowNull: false
 	},

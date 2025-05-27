@@ -14,7 +14,7 @@ const resumeSchema = {
 		type: DataTypes.STRING,
 		allowNull: false
 	},
-	profile_id: {
+	user_id: {
 		type: DataTypes.UUID,
 	}
 }

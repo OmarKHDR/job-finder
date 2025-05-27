@@ -2,12 +2,11 @@ import express from "express";
 import dotenv from 'dotenv';
 import path from 'path';
 import morgan from 'morgan';
-import router from "@routes/router";
 import logger from "@utils/logger";
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 import { getDB } from "@config/db";
 import initModels from "@models/index";
-
+import routerFactory from "@routes/router";
 
 
 const port = parseInt(process.env.PORT) || 5000;
@@ -22,7 +21,10 @@ app.use(morgan(":method :url :status :response-time ms",{
 		},
 	})
 );
-app.use(router)
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+routerFactory(app);
 
 async function startServer(){
 	try{

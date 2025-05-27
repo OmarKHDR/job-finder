@@ -29,6 +29,10 @@ const userSchema = {
 		},
 		allowNull: false
 	},
+	password: {
+		type: DataTypes.TEXT,
+		allowNull: false
+	},
 	role: {
 		type: DataTypes.STRING,
 		allowNull: false
@@ -36,6 +40,12 @@ const userSchema = {
 	specialization: {
 		type: DataTypes.STRING,
 		allowNull: false
+	},
+	experience: {
+		type: DataTypes.TEXT,
+	},
+	interests: {
+		type: DataTypes.TEXT,
 	},
 }
 

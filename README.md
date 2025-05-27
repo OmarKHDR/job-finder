@@ -1,5 +1,8 @@
 # GO FiND A JOB
 ---
+
+## White Board for db design and Arch
+[Miro Board](https://miro.com/welcomeonboard/QjNqUFA0Z0ZoWFFtWWJlVFdNcmlJTjNTWUZ4cWx0RXhidzA1U0luZVFKdklWeVZoSVJpcnRObm1BRGxGUU1CTEo1K0s2Y2dCR2J2YjZFVG9XRktPSVhEa0hlNDZCK0V4VVd2UFdnaHlnM0ZDTWVUZFB1bWxuVnNkTXpiNDM0UzhyVmtkMG5hNDA3dVlncnBvRVB2ZXBnPT0hdjE=?share_link_id=897954407162)
 ## Buisness requirements 
 1. User Management
 

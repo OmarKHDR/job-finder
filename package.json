@@ -39,6 +39,8 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
     "@types/morgan": "^1.9.9",
+    "bcrypt": "^6.0.0",
+    "jsonwebtoken": "^9.0.2",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3"
