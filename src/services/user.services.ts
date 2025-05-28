@@ -39,9 +39,10 @@ class user {
 	static async getAllUsers() {
 		try {
 			const users = await user.User.findAll();
-			const payload = {}
+			const payload = []
 			for (let u of users){
-				payload[u.id] = {
+				payload.push({
+					id: u.id,
 					firstname: u.firstname,
 					lastname: u.lastname,
 					password: u.password,
@@ -51,18 +52,30 @@ class user {
 					specialization: u.specialization,
 					experience: u.experience,
 					interests: u.interests
-				} 
+				})
 			}
 			return payload;
 		} catch(err) {
 			logger.error(`error ocurred while loading users: ${err}`);
-			throw new Error(`Error: getting all users: ${err}`)
+			throw new Error(`error getting all users: ${err}`)
 		}
 	}
 
 	static async getUser(data) {
 		try {
-			await user.User.findOne({where: data})
+			const u = await user.User.findOne({where: data})
+				return {
+					id: u.id,
+					firstname: u.firstname,
+					lastname: u.lastname,
+					password: u.password,
+					email: u.email,
+					age: u.age,
+					role: u.role,
+					specialization: u.specialization,
+					experience: u.experience,
+					interests: u.interests
+				}
 		} catch(err) {
 			logger.error(`error ocurred while loading user: ${err}`);
 			throw new Error(`Error: getting user: ${err}`)

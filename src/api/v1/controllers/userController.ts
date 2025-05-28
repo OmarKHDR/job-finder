@@ -44,6 +44,9 @@ class userController {
 		try {
 			await userController.init();
 			const users = await user.getAllUsers();
+			for (let u of users) {
+				delete u["password"]
+			}
 			res.status(200).send({
 				status: "success",
 				users: users
@@ -52,9 +55,23 @@ class userController {
 			logger.error(`error inside User controller: ${err}`)
 			res.status(500).send({
 				status: "failed",
-				users: ""
+				users: []
 			})
 		}
+	}
+
+	static async getUser(req, res) {
+		let u;
+		if (req.params.id) {
+			u = await user.getUser({id: req.params.id})
+		} else if (req.query.email) {
+			u = await user.getUser({email: req.query.email});
+		}
+		delete u["password"];
+		res.status(200).send({
+			"status": "success",
+			"user": u
+		})
 	}
 }
 

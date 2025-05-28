@@ -4,9 +4,9 @@ import userRouter from "@routes/userRoutes"
 // import {authenticate} from "@services/authenticator";
 
 
-function routerFactory(app) {
-	app.use("/user/", userRouter);
+function routerInjector(app) {
+	app.use("/users/", userRouter);
 	//all other routers
 }
 
-export default routerFactory;
+export default routerInjector;
