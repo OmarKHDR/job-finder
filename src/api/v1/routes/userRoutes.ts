@@ -14,6 +14,6 @@ userRouter.get('/:id', userController.getUser);
 userRouter.post('/',userController.createUser);
 
 //user himself and admin?
-userRouter.delete('/:id', userController.deleteUser);
+// userRouter.delete('/:id', userController.deleteUser);
 
 export default userRouter;

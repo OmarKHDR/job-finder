@@ -16,7 +16,8 @@
 			"@controllers/*": ["src/api/v1/controllers/*"],
 			"@routes/*": ["src/api/v1/routes/*"],
 			"@models/*": ["src/models/*"],
-			"@config/*": ["src/config/*"]
+			"@config/*": ["src/config/*"],
+			"@middlewares/*": ["src/middlewares/*"]
 		}
 	},
 	"include": ["src/**/*"],
