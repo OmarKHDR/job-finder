@@ -1,4 +1,5 @@
 import user from '@services/user.services';
+import { signData } from '@auth/jwt';
 import logger from '@utils/logger';
 
 
@@ -27,9 +28,13 @@ class userController {
 		try {
 			await userController.init();
 			await user.creatUser(data);
+			const token = signData({
+				email: data.email,
+				role: data.role,
+			})
 			res.status(200).send({
 				status: "success",
-				jwt: {}
+				jwt: token
 			});
 		} catch(err) {
 			logger.error(`Error inside the user Controller: ${err}`);
