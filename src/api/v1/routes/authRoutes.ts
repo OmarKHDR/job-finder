@@ -4,8 +4,12 @@ import userVerification from '@middlewares/verifyUser';
 import { jwtVerification } from '@middlewares/virefyToken';
 import user from '@/services/user.services';
 
-const authRoutes = Router();
+const authRouter = Router();
 
 
-authRoutes.get('/refresh', jwtVerification, authController.refreshToken)
-authRoutes.post('/login', userVerification, authController.createNewToken)
+authRouter.get('/refresh', jwtVerification, authController.refreshToken)
+authRouter.post('/login', userVerification, authController.createToken)
+authRouter.get('/logout', jwtVerification, authController.logout)
+authRouter.post('/logout', userVerification, authController.logout)
+
+export default authRouter;

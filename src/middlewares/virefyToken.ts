@@ -14,6 +14,7 @@ export function jwtVerification(req, res, next) {
 	const payload = verifyToken(token);
 
 	if (payload.user) {
+		req.user = payload.user
 		return next();
 	}
 

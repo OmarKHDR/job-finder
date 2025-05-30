@@ -6,7 +6,8 @@ const revokedTokens = new Set();
 
 
 export function signData(payload) {
-	return jwt.sign(payload, jwt_secret, {expiresIn: '1h', jti: generateId()});
+    payload["jti"] = generateId()
+	return jwt.sign(payload, jwt_secret, {expiresIn: '1h'});
 }
 
 export function verifyToken(token) {

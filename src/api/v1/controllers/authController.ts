@@ -5,14 +5,11 @@ import user from "@services/user.services"
 export default class authController {
 	static async refreshToken(req, res) {
 		try {
-			const authHeader = req.headers.authorization;
-			const token = authHeader.split(" ")[1];
-			const u = verifyToken(token)
 			const payload = {}
 			if (req && req.user) {
-				payload["email"] = u.user.email
-				payload["role"] = u.user.role
-				revokeToken(u.user.jti)
+				payload["email"] = req.user.email
+				payload["role"] = req.user.role
+				revokeToken(req.user.jti)
 				const newToken = signData(payload);
 				return res.status(200).send({
 					status: "success", 
@@ -32,18 +29,16 @@ export default class authController {
 		}
 	}
 
-	static async createNewToken(req, res) {
+	static async createToken(req, res) {
 		try {
-			const email = req.body.email;
-			const u = await user.getUser({email: email})
 			const payload = {}
-			if (req && req.body) {
-				payload["email"] = u.email
-				payload["role"] = u.role
-				const newToken = signData(payload);
+			if (req && req.user) {
+				payload["email"] = req.user.email
+				payload["role"] = req.user.role
+				const token = signData(payload);
 				return res.status(200).send({
 					status: "success", 
-					token: newToken
+					token: token
 				});
 			} else {
 				return res.status(401).send({
@@ -55,6 +50,29 @@ export default class authController {
 			return res.status(500).send({
 				status: "failed",
 				reason: `${err}`
+			})
+		}
+	}
+
+
+	static async logout(req, res) {
+		try {
+			if (req && req.user) {
+				revokeToken(req.user.jti)
+				return res.status(200).send({
+					status: "success",
+					reason: "logged out successfully"
+				});
+			} else {
+				return res.status(401).send({
+					status: "failed", 
+					reason: "no token or token incorrect"
+				})
+			}
+		} catch (err) {
+			return res.status(500).send({
+				status: "failed",
+				reason: `internal error occured`
 			})
 		}
 	}
