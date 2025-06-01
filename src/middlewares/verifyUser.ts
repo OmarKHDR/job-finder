@@ -5,6 +5,12 @@ import logger from "@utils/logger";
 export default async function userVerification(req, res, next) {
 	if (req.body) {
 		try {
+			if (req.user) {
+				res.status(401).send({
+					status: "failed",
+					reason: "trying to be smart"
+				})
+			}
 			const email = req.body.email;
 			const password = req.body.password;
 			const u = await user.getUser({email: email})
@@ -18,7 +24,8 @@ export default async function userVerification(req, res, next) {
 			if (isUser) {
 				req.user = {
 					email: u.email,
-					role: u.role
+					role: u.role,
+					id: u.id
 				}
 				return next()
 			}

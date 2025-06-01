@@ -25,7 +25,7 @@ export function verifyToken(token) {
     } catch (err) {
         return {
             user: null,
-            reason: `${err}`
+            reason: "enternal error"
         };
     }
 }

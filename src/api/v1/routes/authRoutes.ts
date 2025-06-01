@@ -9,6 +9,8 @@ const authRouter = Router();
 
 authRouter.get('/refresh', jwtVerification, authController.refreshToken)
 authRouter.post('/login', userVerification, authController.createToken)
+
+
 authRouter.get('/logout', jwtVerification, authController.logout)
 authRouter.post('/logout', userVerification, authController.logout)
 

@@ -28,17 +28,18 @@ class user {
 			}
 			const passwordhash = await Crypto.getHash(data.password);
 			data.password = passwordhash;
-			await user.User.create(data);
+			const u = await user.User.create(data);
 			logger.info(`new user created: ${data.email}`)
+			return u.id;
 		} catch(err) {
 			logger.error(`error occured while creating the user ${data.email}: ${err}`);
 			throw new Error(`${err}`)
 		}
 	}
 
-	static async getAllUsers() {
+	static async getAllUsers(data = {}) {
 		try {
-			const users = await user.User.findAll();
+			const users = await user.User.findAll({where: data});
 			const payload = []
 			for (let u of users){
 				payload.push({

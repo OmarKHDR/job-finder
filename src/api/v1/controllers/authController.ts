@@ -9,6 +9,7 @@ export default class authController {
 			if (req && req.user) {
 				payload["email"] = req.user.email
 				payload["role"] = req.user.role
+				payload["id"] = req.user.id
 				revokeToken(req.user.jti)
 				const newToken = signData(payload);
 				return res.status(200).send({
@@ -35,6 +36,7 @@ export default class authController {
 			if (req && req.user) {
 				payload["email"] = req.user.email
 				payload["role"] = req.user.role
+				payload["id"] = req.user.id
 				const token = signData(payload);
 				return res.status(200).send({
 					status: "success", 

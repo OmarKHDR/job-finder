@@ -24,59 +24,81 @@ class userController {
 			experience: req.body? req.body.experience:null,
 			specialization: req.body? req.body.specialization:null
 		}
-		console.log(data);
 		try {
 			await userController.init();
-			await user.creatUser(data);
+			const uid = await user.creatUser(data);
+			logger.info(`trying signing user ${uid} using jwt`)
 			const token = signData({
+				id: uid,
 				email: data.email,
 				role: data.role,
 			})
-			res.status(200).send({
+			return res.status(200).send({
 				status: "success",
+				id: uid,
 				jwt: token
 			});
 		} catch(err) {
-			logger.error(`Error inside the user Controller: ${err}`);
-			res.status(500).send({
+			logger.error(`Error creating new user: ${err}`);
+			return res.status(500).send({
 				status: "failed",
-				reason: `${err}`
+				reason: `an internal error has occured`
 			});
 		}
 	}
 
 	static async getAllUsers(req, res) {
 		try {
+			if (req.user && req.user.role != "admin") {
+				logger.error("error retriving users, role is not admin")
+				return res.status(403).send({
+					status: "failed",
+					reason: "no suffecient authorization"
+				})
+			}
 			await userController.init();
-			const users = await user.getAllUsers();
+			const users = await user.getAllUsers(req.query || {});
 			for (let u of users) {
 				delete u["password"]
 			}
-			res.status(200).send({
+			logger.info(`got users data`)
+			return res.status(200).send({
 				status: "success",
 				users: users
 			})
 		} catch (err) {
-			logger.error(`error inside User controller: ${err}`)
-			res.status(500).send({
+			logger.error(`error getting all Users: ${err}`)
+			return res.status(500).send({
 				status: "failed",
 				users: []
 			})
 		}
 	}
 
-	static async getUser(req, res) {
-		let u;
-		if (req.params.id) {
-			u = await user.getUser({id: req.params.id})
-		} else if (req.query.email) {
-			u = await user.getUser({email: req.query.email});
+
+	static async getMyAccount(req, res) {
+		try {
+			const u = await user.getUser({id: req.user.id})
+			if (!u) {
+				logger.error(`couldnt find any user with id ${req.user.id}`)
+				return res.status(500).send({
+					status: "failed",
+					reason: "user doesnt exist"
+				})
+			}
+
+			delete u["password"];
+			return res.status(200).send({
+				"status": "success",
+				"user": u
+			})
+		} catch (err) {
+			logger.error(`Error getting user: ${err}`);
+			return res.status(500).send({
+				status: "failed",
+				reason: "an internal error has occured"
+			})
 		}
-		delete u["password"];
-		res.status(200).send({
-			"status": "success",
-			"user": u
-		})
 	}
 }
 
