@@ -13,6 +13,12 @@ export default async function userVerification(req, res, next) {
 			}
 			const email = req.body.email;
 			const password = req.body.password;
+			if (!email || !password) {
+				return res.status(401).send({
+					status: "failed",
+					reason: `no email or password was provided provided`
+				})
+			}
 			const u = await user.getUser({email: email})
 			if (!u) {
 				res.status(401).send({
